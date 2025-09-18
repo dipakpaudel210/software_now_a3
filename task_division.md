@@ -4,7 +4,7 @@ This document defines the **task breakdown across 4 engineers** for building the
 
 ---
 
-## 👨‍💻 Mission — Lead / Senior Engineer (Integration & HF Client)
+## 👨‍💻 Mission — 
 **Files Owned:**
 - `config.py`
 - `models/hf_client.py`
@@ -24,7 +24,7 @@ This document defines the **task breakdown across 4 engineers** for building the
 
 ---
 
-## 👨‍💻 Rohan — Mid-level (Models & Unit Tests)
+## 👨‍💻 Rohan — 
 **Files Owned:**
 - `models/base_model.py`
 - `models/text_model.py`
@@ -45,7 +45,7 @@ This document defines the **task breakdown across 4 engineers** for building the
 
 ---
 
-## 👨‍💻 Millan — Mid-level (GUI & UX)
+## 👨‍💻 Millan — 
 **Files Owned:**
 - `gui/app.py`
 - `main.py`
@@ -66,7 +66,7 @@ This document defines the **task breakdown across 4 engineers** for building the
 
 ---
 
-## 👨‍💻 Dipak — Junior (Helpers, Docs, Smoke Tests)
+## 👨‍💻 Dipak —  (Helpers, Docs, Smoke Tests)
 **Files Owned:**
 - `utils/decorators.py`
 - `models/__init__.py`
