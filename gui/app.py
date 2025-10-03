@@ -1,4 +1,5 @@
 """
+<<<<<<< HEAD
 GUI implementation for the AI Model interface using Tkinter.
 
 This module demonstrates various OOP concepts:
@@ -7,6 +8,9 @@ This module demonstrates various OOP concepts:
 3. Encapsulation: Through proper class structure and private methods
 4. Polymorphism: In model implementations
 5. Method overriding: In specialized model classes
+=======
+GUI implementation for the AI Model interface.
+>>>>>>> 7c3ea09b9e1745bb2cf9407e30a0ef94b5d9ada2
 """
 
 import os
@@ -15,6 +19,7 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import tkinter as tk
+<<<<<<< HEAD
 from tkinter import ttk, scrolledtext, messagebox, filedialog
 from models.text_model import TextModel
 from models.image_model import ImageModel
@@ -54,6 +59,13 @@ AVAILABLE_MODELS = {
         "pipeline": "text-generation"
     }
 }
+=======
+from tkinter import ttk, scrolledtext
+from models.text_model import TextModel
+from models.image_model import ImageModel
+from PIL import Image, ImageTk
+import io
+>>>>>>> 7c3ea09b9e1745bb2cf9407e30a0ef94b5d9ada2
 
 class AIModelGUI:
     """A GUI interface for interacting with AI models."""
@@ -61,6 +73,7 @@ class AIModelGUI:
     def __init__(self, root=None):
         """Initialize the GUI with text and image model capabilities."""
         self.root = root if root else tk.Tk()
+<<<<<<< HEAD
         self.root.title("Tkinter AI GUI")
         self.root.geometry("1200x800")
         
@@ -76,10 +89,24 @@ class AIModelGUI:
         self._create_menu()
         
         # Setup the GUI components
+=======
+        self.root.title("AI Model Interface")
+        self.root.geometry("800x600")
+        
+        # Initialize HF client with mock mode for testing
+        from models.hf_client import HFClient
+        client = HFClient(mock_mode=True)
+        
+        # Initialize models with specific model IDs
+        self.text_model = TextModel(client, "gpt2")  # Example model ID
+        self.image_model = ImageModel(client, "stable-diffusion-v1-5")  # Example model ID
+        
+>>>>>>> 7c3ea09b9e1745bb2cf9407e30a0ef94b5d9ada2
         self._setup_gui()
     
     def _setup_gui(self):
         """Set up the GUI components."""
+<<<<<<< HEAD
         # Create main sections
         top_frame = ttk.Frame(self.root)
         top_frame.pack(fill='x', padx=10, pady=5)
@@ -175,6 +202,21 @@ class AIModelGUI:
         
         # Update initial model information
         self._update_model_info()
+=======
+        # Create notebook for tabs
+        notebook = ttk.Notebook(self.root)
+        notebook.pack(fill='both', expand=True, padx=10, pady=5)
+        
+        # Text model tab
+        text_frame = ttk.Frame(notebook)
+        notebook.add(text_frame, text='Text Model')
+        self._setup_text_tab(text_frame)
+        
+        # Image model tab
+        image_frame = ttk.Frame(notebook)
+        notebook.add(image_frame, text='Image Model')
+        self._setup_image_tab(image_frame)
+>>>>>>> 7c3ea09b9e1745bb2cf9407e30a0ef94b5d9ada2
     
     def _setup_text_tab(self, parent):
         """Set up the text model interface tab."""
@@ -254,6 +296,7 @@ class AIModelGUI:
                 self.image_output.delete("1.0", tk.END)
                 self.image_output.insert(tk.END, f"Error: {str(e)}")
     
+<<<<<<< HEAD
     def _create_menu(self):
         """Create the main menu bar."""
         menubar = tk.Menu(self.root)
@@ -550,6 +593,10 @@ Your key will be saved securely in your config file."""
             if result:
                 self._configure_api_key()
         
+=======
+    def run(self):
+        """Start the GUI application."""
+>>>>>>> 7c3ea09b9e1745bb2cf9407e30a0ef94b5d9ada2
         self.root.mainloop()
 
 

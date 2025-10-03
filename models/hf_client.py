@@ -1,4 +1,5 @@
 import requests
+<<<<<<< HEAD
 import logging
 from config import Config
 from utils.decorators import retry_on_failure, log_call
@@ -8,6 +9,10 @@ import io
 import base64
 
 logger = logging.getLogger(__name__)
+=======
+from config import Config
+from utils.decorators import retry_on_failure, log_call
+>>>>>>> 7c3ea09b9e1745bb2cf9407e30a0ef94b5d9ada2
 
 class HFClient:
     """Encapsulates Hugging Face API interaction with error handling."""
@@ -22,6 +27,7 @@ class HFClient:
         """
         self.mock_mode = mock_mode
         self.model_id = model_id
+<<<<<<< HEAD
         
         # Get API key from config or parameter
         self.api_key = api_key or Config.get_hf_api_key()
@@ -129,10 +135,40 @@ class HFClient:
         Returns:
             Dict containing the response with proper formatting
         """
+=======
+        if model_id:
+            self.api_url = f"https://api-inference.huggingface.co/models/{model_id}"
+        self.api_key = api_key or Config.get_hf_api_key()
+        self.headers = {"Authorization": f"Bearer {self.api_key}"} if self.api_key else {}
+
+    @log_call
+    @retry_on_failure(retries=3, delay=2)
+    def query(self, model_id_or_payload: str | dict, payload: dict = None):
+        """Send input payload to Hugging Face model and return structured response.
+        
+        This method accepts two calling conventions:
+        1. query(payload_dict) - Use the model ID from initialization
+        2. query(model_id, payload_dict) - Override the model ID for this call
+        
+        In mock mode, returns a simulated response without making an actual API call.
+        """
+        # Handle both calling conventions
+        if isinstance(model_id_or_payload, str):
+            # Called as query(model_id, payload)
+            model_id = model_id_or_payload
+            if payload is None:
+                raise ValueError("Payload is required when providing model_id")
+        else:
+            # Called as query(payload)
+            model_id = self.model_id
+            payload = model_id_or_payload
+
+>>>>>>> 7c3ea09b9e1745bb2cf9407e30a0ef94b5d9ada2
         if self.mock_mode:
             return {
                 "status": "success",
                 "data": {
+<<<<<<< HEAD
                     "model": model_id,
                     "predictions": [
                         {"label": "MOCK_LABEL", "score": 0.95},
@@ -176,6 +212,24 @@ class HFClient:
                 "status": "error",
                 "message": f"Error processing query: {str(e)}"
             }
+=======
+                    "model": model_id or self.model_id or "mock-model",
+                    "input": payload.get("inputs", ""),
+                    "output": "[Mock Response] " + str(payload.get("inputs", ""))
+                }
+            }
+            
+        if not model_id:
+            raise ValueError("Model ID must be provided either during initialization or in the query call")
+            
+        api_url = f"https://api-inference.huggingface.co/models/{model_id}"
+        try:
+            response = requests.post(api_url, headers=self.headers, json=payload, timeout=30)
+            response.raise_for_status()
+            return {"success": True, "data": response.json()}
+        except requests.exceptions.RequestException as e:
+            return {"success": False, "error": str(e)}
+>>>>>>> 7c3ea09b9e1745bb2cf9407e30a0ef94b5d9ada2
 
 
 # Example usage
