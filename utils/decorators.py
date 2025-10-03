@@ -159,6 +159,46 @@ def retry(max_attempts: int = 3, delay: float = 1.0, backoff: float = 2.0) -> Ca
     return decorator
 
 
+def log_call(func: Callable) -> Callable:
+    """Alias for api_call_logger decorator.
+    
+    This is a convenience wrapper around the api_call_logger decorator.
+    It logs function calls with timing information.
+    
+    Example:
+        @log_call
+        def api_function():
+            # Function that makes API calls
+            pass
+    """
+    return api_call_logger(func)
+
+
+def retry_on_failure(func: Callable = None, *, retries: int = 3, delay: float = 1.0) -> Callable:
+    """Alias for retry decorator with configurable parameters.
+    
+    This is a convenience wrapper around the retry decorator that allows setting
+    the number of retries and initial delay. Can be used with or without parameters.
+    
+    Args:
+        func: The function to decorate (when used without parameters)
+        retries: Number of retry attempts (default: 3)
+        delay: Initial delay between retries in seconds (default: 1.0)
+    
+    Example:
+        @retry_on_failure
+        def basic_retry():
+            pass
+            
+        @retry_on_failure(retries=5)
+        def custom_retry():
+            pass
+    """
+    if func is None:
+        return lambda f: retry(max_attempts=retries, delay=delay)(f)
+    return retry()(func)
+
+
 def timing_decorator(func: Callable) -> Callable:
     """
     Simple timing decorator to measure function execution time.
